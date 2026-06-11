@@ -10,17 +10,28 @@ interface DailyLimitReachedProps {
 export function DailyLimitReached({ refreshIn, fortune }: DailyLimitReachedProps) {
   return (
     <div className="daily-limit">
-      <div className="daily-limit__icon" aria-hidden>
-        <FortuneCookieIcon size={48} cracked />
+      <div className="daily-limit__top">
+        <div className="daily-limit__icon" aria-hidden>
+          <FortuneCookieIcon size={40} cracked />
+        </div>
+        <p className="daily-limit__title">Today&apos;s cookie is cracked</p>
       </div>
-      <p className="daily-limit__title">Today&apos;s cookie is cracked</p>
-      <p className="daily-limit__text">
-        You get one fortune cookie per day. A fresh cookie arrives at midnight in your timezone.
-      </p>
-      {fortune && <FortunePreview category={fortune.category} fortune={fortune.message} />}
-      <p className="daily-limit__countdown">
-        Next cookie in <strong>{refreshIn}</strong>
-      </p>
+
+      <div className="daily-limit__hero">
+        {fortune ? (
+          <FortunePreview category={fortune.category} fortune={fortune.message} />
+        ) : (
+          <p className="daily-limit__text">Your fortune will appear here after you crack today&apos;s cookie.</p>
+        )}
+      </div>
+
+      <div className="daily-limit__footer">
+        <p className="daily-limit__countdown">
+          <span className="daily-limit__countdown-label">Next cookie in</span>
+          <strong className="daily-limit__countdown-time">{refreshIn}</strong>
+        </p>
+        <p className="daily-limit__hint">Fresh cookie at midnight, your time</p>
+      </div>
     </div>
   );
 }

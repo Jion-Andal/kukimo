@@ -83,7 +83,7 @@ export default function App() {
   );
 
   return (
-    <div className="app">
+    <div className={`app${!canCrackToday ? ' app--fortune-focus' : ''}`}>
       <header className="header">
         <Logo size={44} />
         <h1 className="title">Kukimo</h1>

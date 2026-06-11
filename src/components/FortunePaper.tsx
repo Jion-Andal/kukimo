@@ -21,9 +21,13 @@ export function FortunePaper({ category, fortune, canCrackToday, refreshIn, onNe
           Crack another cookie
         </button>
       ) : (
-        <p className="daily-limit__footnote">
-          Next cookie in <strong>{refreshIn}</strong> (midnight, your time)
-        </p>
+        <>
+          <p className="daily-limit__countdown">
+            <span className="daily-limit__countdown-label">Next cookie in</span>
+            <strong className="daily-limit__countdown-time">{refreshIn}</strong>
+          </p>
+          <p className="daily-limit__hint">Fresh cookie at midnight, your time</p>
+        </>
       )}
     </div>
   );

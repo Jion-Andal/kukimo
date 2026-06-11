@@ -5,5 +5,10 @@ dist
 android/.gradle
 android/app/build
 android/build
+android/local.properties
+android/keystore.properties
+android/*.keystore
+android/*.jks
 ios/App/Pods
 ios/DerivedData
+screenshots/*.png

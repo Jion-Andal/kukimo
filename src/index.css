@@ -87,6 +87,15 @@ body {
   justify-content: center;
   width: 100%;
   max-width: 420px;
+  min-height: 0;
+}
+
+.app--fortune-focus .header {
+  margin-bottom: 0.75rem;
+}
+
+.app--fortune-focus .cracked-tracker {
+  display: none;
 }
 
 /* Cookie + pet stage */
@@ -267,11 +276,14 @@ body {
 /* Fortune paper */
 
 .fortune-reveal {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 1.5rem;
   width: 100%;
+  min-height: 100%;
   animation: paperSlide 0.5s ease-out;
 }
 
@@ -335,11 +347,38 @@ body {
 }
 
 .fortune-paper__text {
-  font-size: 1.1rem;
-  line-height: 1.6;
+  font-size: 1.2rem;
+  line-height: 1.65;
   text-align: center;
   font-style: italic;
+  font-weight: 600;
   color: var(--text);
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 1.1rem 1rem;
+  background: linear-gradient(
+    180deg,
+    rgba(245, 215, 142, 0.55) 0%,
+    rgba(255, 233, 168, 0.35) 100%
+  );
+  border: 2px solid rgba(196, 122, 44, 0.45);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    0 2px 10px rgba(196, 122, 44, 0.12);
+}
+
+.fortune-reveal .fortune-paper {
+  padding: 1.75rem 1.35rem;
+  border-radius: 12px;
+  box-shadow:
+    0 4px 16px var(--shadow),
+    inset 0 0 32px rgba(245, 215, 142, 0.18);
+}
+
+.fortune-reveal .fortune-paper__text {
+  font-size: 1.35rem;
+  padding: 1.25rem 1.1rem;
 }
 
 /* Buttons & messages */
@@ -365,13 +404,44 @@ body {
 }
 
 .daily-limit {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
   width: 100%;
+  min-height: 100%;
   text-align: center;
-  padding: 1rem 0.5rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.daily-limit__top {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.daily-limit__hero {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+  padding: 0.75rem 0;
+}
+
+.daily-limit__footer {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  padding:
+    0.5rem 0.75rem
+    calc(5rem + env(safe-area-inset-bottom));
 }
 
 .daily-limit__icon {
@@ -399,27 +469,80 @@ body {
   font-size: 0.95rem;
   line-height: 1.5;
   color: var(--text-muted);
-  max-width: 28ch;
+  max-width: 32ch;
+  padding: 0 0.5rem;
+}
+
+.daily-limit__hint {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+  text-align: center;
+  max-width: 100%;
 }
 
 .daily-limit__countdown,
 .daily-limit__footnote {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
   font-size: 0.9rem;
   color: var(--text-muted);
+  background: rgba(245, 215, 142, 0.45);
+  border: 1.5px solid var(--cookie-brown);
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  max-width: 100%;
+  text-align: center;
 }
 
+.daily-limit__countdown-label {
+  white-space: nowrap;
+}
+
+.daily-limit__countdown-time,
 .daily-limit__countdown strong,
 .daily-limit__footnote strong {
   color: var(--text);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.fortune-reveal .daily-limit__hint {
+  margin-bottom: calc(4.5rem + env(safe-area-inset-bottom));
 }
 
 .fortune-preview {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.65rem;
   width: 100%;
-  margin-top: 0.25rem;
+}
+
+.daily-limit__hero .fortune-preview {
+  gap: 0.85rem;
+}
+
+.daily-limit__hero .fortune-preview__label {
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+}
+
+.daily-limit__hero .fortune-preview__paper {
+  padding: 1.5rem 1.15rem 1.25rem;
+  border-radius: 12px;
+  box-shadow:
+    0 4px 16px var(--shadow),
+    inset 0 0 32px rgba(245, 215, 142, 0.18);
+}
+
+.daily-limit__hero .fortune-preview__text {
+  font-size: 1.35rem;
+  line-height: 1.65;
+  padding: 1.25rem 1.1rem;
 }
 
 .fortune-preview__label {
@@ -434,7 +557,7 @@ body {
   background: var(--paper);
   border: 1px solid #e8dfc8;
   border-radius: 8px;
-  padding: 1.25rem 1rem;
+  padding: 1.25rem 1rem 1rem;
   box-shadow:
     0 2px 8px var(--shadow),
     inset 0 0 24px rgba(245, 215, 142, 0.12);
@@ -456,12 +579,31 @@ body {
   width: fit-content;
 }
 
+.fortune-preview__paper .fortune-preview__category {
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .fortune-preview__text {
-  font-size: 1rem;
-  line-height: 1.55;
+  font-size: 1.1rem;
+  line-height: 1.6;
   text-align: center;
   font-style: italic;
+  font-weight: 600;
   color: var(--text);
+  padding: 1rem 0.9rem;
+  background: linear-gradient(
+    180deg,
+    rgba(245, 215, 142, 0.55) 0%,
+    rgba(255, 233, 168, 0.35) 100%
+  );
+  border: 2px solid rgba(196, 122, 44, 0.45);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    0 2px 10px rgba(196, 122, 44, 0.12);
 }
 
 /* Collection FAB — lower left */
