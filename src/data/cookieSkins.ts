@@ -5,7 +5,8 @@ export type CookieSkinId =
   | 'cool'
   | 'angry'
   | 'king'
-  | 'gold';
+  | 'gold'
+  | 'angel';
 
 export interface CookieSkin {
   id: CookieSkinId;
@@ -22,6 +23,7 @@ export const COOKIE_SKINS: CookieSkin[] = [
   { id: 'angry', name: 'Angry Cookie', unlockAt: 25, tagline: 'Not in the mood today' },
   { id: 'king', name: 'King Cookie', unlockAt: 50, tagline: 'Fit for a royal feast' },
   { id: 'gold', name: 'Gold Cookie', unlockAt: 100, tagline: 'Pure luxury shimmer' },
+  { id: 'angel', name: 'Angel Cookie', unlockAt: 150, tagline: 'Heavenly halo and flapping wings' },
 ];
 
 export function isSkinUnlocked(skinId: CookieSkinId, crackedCount: number): boolean {

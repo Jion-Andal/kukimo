@@ -41,6 +41,7 @@ export function CookieArt({
 }: CookieArtProps) {
   const crackOpacity = (stage: number) => (taps >= stage ? 1 : 0);
   const isGold = skinId === 'gold';
+  const isAngel = skinId === 'angel';
 
   const clipLeft = `${idPrefix}-clip-left`;
   const clipRight = `${idPrefix}-clip-right`;
@@ -53,7 +54,7 @@ export function CookieArt({
 
   return (
     <svg
-      className={`cookie-art ${isGold ? 'cookie-art--gold' : ''} ${className}`.trim()}
+      className={`cookie-art ${isGold ? 'cookie-art--gold' : ''} ${isAngel ? 'cookie-art--angel' : ''} ${className}`.trim()}
       viewBox="0 0 220 200"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden
@@ -68,6 +69,8 @@ export function CookieArt({
       </defs>
 
       <ellipse cx="110" cy="182" rx="62" ry="6" fill="#2D2016" opacity="0.08" />
+
+      {isAngel && !cracked && <AngelWings />}
 
       {!cracked && (
         <path
@@ -187,6 +190,8 @@ export function CookieArt({
         )}
         {isGold && <GoldSparklesRight />}
       </g>
+
+      {isAngel && !cracked && <AngelHalo />}
     </svg>
   );
 }
@@ -335,6 +340,78 @@ function GoldSparklesRight() {
     <g className="gold-sparkles">
       <path d="M 168 68 L 169 71 L 172 72 L 169 73 L 168 76 L 167 73 L 164 72 L 167 71 Z" fill="#FFF8DC" opacity="0.75" />
       <path d="M 182 144 L 183 147 L 186 148 L 183 149 L 182 152 L 181 149 L 178 148 L 181 147 Z" fill="#FFF8DC" opacity="0.65" />
+    </g>
+  );
+}
+
+function AngelWings() {
+  return (
+    <g className="skin-angel-wings">
+      <g className="skin-angel-wing skin-angel-wing--left">
+        <path
+          d="M 98 98 C 72 82, 38 68, 18 88 C 8 102, 14 122, 32 132 C 48 140, 68 128, 82 112 C 90 104, 96 100, 98 98 Z"
+          fill="#FFFEF8"
+          stroke={COOKIE_STROKE}
+          strokeWidth="2"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M 94 100 C 70 88, 44 82, 28 96"
+          fill="none"
+          stroke="#E8E0D0"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+        <path
+          d="M 88 108 C 62 102, 40 108, 30 118"
+          fill="none"
+          stroke="#E8E0D0"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+      </g>
+      <g className="skin-angel-wing skin-angel-wing--right">
+        <path
+          d="M 122 98 C 148 82, 182 68, 202 88 C 212 102, 206 122, 188 132 C 172 140, 152 128, 138 112 C 130 104, 124 100, 122 98 Z"
+          fill="#FFFEF8"
+          stroke={COOKIE_STROKE}
+          strokeWidth="2"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M 126 100 C 150 88, 176 82, 192 96"
+          fill="none"
+          stroke="#E8E0D0"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+        <path
+          d="M 132 108 C 158 102, 180 108, 190 118"
+          fill="none"
+          stroke="#E8E0D0"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+      </g>
+    </g>
+  );
+}
+
+function AngelHalo() {
+  return (
+    <g className="skin-angel-halo">
+      <ellipse cx="110" cy="20" rx="30" ry="9" fill="#FFD700" opacity="0.18" />
+      <ellipse
+        cx="110"
+        cy="20"
+        rx="30"
+        ry="9"
+        fill="none"
+        stroke="#FFD700"
+        strokeWidth="3.5"
+        strokeLinecap="round"
+      />
+      <ellipse cx="110" cy="20" rx="30" ry="9" fill="none" stroke="#FFF8DC" strokeWidth="1.5" opacity="0.7" />
     </g>
   );
 }

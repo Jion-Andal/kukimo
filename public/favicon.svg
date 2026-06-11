@@ -1,12 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <defs>
-    <linearGradient id="favCookie" x1="30%" y1="10%" x2="70%" y2="90%">
-      <stop offset="0%" stop-color="#FBE8A8"/>
-      <stop offset="50%" stop-color="#EDBF5E"/>
-      <stop offset="100%" stop-color="#C9923A"/>
-    </linearGradient>
-  </defs>
-  <rect x="30" y="10" width="4" height="12" rx="1" fill="#FFFEF5" stroke="#E8DFC8" stroke-width="0.5"/>
-  <path d="M32 22 C 24 23, 10 28, 9 40 C 8 48, 16 54, 24 55 C 28 56, 32 54, 32 48 L 32 22 Z" fill="url(#favCookie)" stroke="#A66B28" stroke-width="2" stroke-linejoin="round"/>
-  <path d="M32 22 C 40 23, 54 28, 55 40 C 56 48, 48 54, 40 55 C 36 56, 32 54, 32 48 L 32 22 Z" fill="url(#favCookie)" stroke="#A66B28" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="30" y="8" width="4" height="14" rx="1" fill="#FFFEF5" stroke="#2D2016" stroke-width="1.2"/>
+  <path d="M 32 22 C 24 23, 10 28, 9 40 C 8 48, 16 54, 24 55 C 28 56, 32 54, 32 48 L 32 22 Z" fill="#F5B942" stroke="#2D2016" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M 32 22 C 40 23, 54 28, 55 40 C 56 48, 48 54, 40 55 C 36 56, 32 54, 32 48 L 32 22 Z" fill="#F5B942" stroke="#2D2016" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M 18 36 C 16 42, 18 48, 22 50 C 23 45, 21 39, 19 36 Z" fill="#FFE9A8"/>
+  <path d="M 46 36 C 48 42, 46 48, 42 50 C 41 45, 43 39, 45 36 Z" fill="#FFE9A8"/>
 </svg>

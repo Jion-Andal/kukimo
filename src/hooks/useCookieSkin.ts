@@ -14,7 +14,8 @@ function isCookieSkinId(value: string): value is CookieSkinId {
     value === 'cool' ||
     value === 'angry' ||
     value === 'king' ||
-    value === 'gold'
+    value === 'gold' ||
+    value === 'angel'
   );
 }
 

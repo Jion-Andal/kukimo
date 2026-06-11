@@ -1,4 +1,5 @@
 import type { Fortune } from '../data/fortunes';
+import { FortuneCookieIcon } from './FortuneCookieIcon';
 import { FortunePreview } from './FortunePreview';
 
 interface DailyLimitReachedProps {
@@ -9,9 +10,9 @@ interface DailyLimitReachedProps {
 export function DailyLimitReached({ refreshIn, fortune }: DailyLimitReachedProps) {
   return (
     <div className="daily-limit">
-      <p className="daily-limit__icon" aria-hidden>
-        🍪
-      </p>
+      <div className="daily-limit__icon" aria-hidden>
+        <FortuneCookieIcon size={48} cracked />
+      </div>
       <p className="daily-limit__title">Today&apos;s cookie is cracked</p>
       <p className="daily-limit__text">
         You get one fortune cookie per day. A fresh cookie arrives at midnight in your timezone.

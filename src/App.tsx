@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { CookieCollection } from './components/CookieCollection';
 import { CookieStage } from './components/CookieStage';
 import { DailyLimitReached } from './components/DailyLimitReached';
+import { FortuneCookieIcon } from './components/FortuneCookieIcon';
 import { FortuneStatsModal } from './components/FortuneStatsModal';
 import { TAPS_TO_CRACK } from './components/FortuneCookie';
 import { FortunePaper } from './components/FortunePaper';
@@ -124,7 +125,7 @@ export default function App() {
         aria-label="Open upgrades"
       >
         <span className="collection-fab__icon" aria-hidden>
-          🍪
+          <FortuneCookieIcon size={18} />
         </span>
         Upgrades
       </button>
