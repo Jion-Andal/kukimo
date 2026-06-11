@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { isPetUnlocked, type PetId } from '../data/pets';
+import { getItem, setItem } from '../utils/storage';
 import type { FortuneStats } from './useFortuneStats';
 
 const STORAGE_KEY = 'kukimo-equipped-pet';
@@ -18,7 +19,7 @@ function isPetId(value: string): value is PetId {
 
 function readEquippedPet(): PetId | null {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = getItem(STORAGE_KEY);
     if (raw === 'none') return null;
     if (raw && isPetId(raw)) return raw;
   } catch {
@@ -32,7 +33,7 @@ export function useEquippedPet() {
 
   const selectPet = useCallback((id: PetId | null, stats: FortuneStats) => {
     if (id !== null && !isPetUnlocked(id, stats)) return false;
-    localStorage.setItem(STORAGE_KEY, id ?? 'none');
+    setItem(STORAGE_KEY, id ?? 'none');
     setPetId(id);
     return true;
   }, []);

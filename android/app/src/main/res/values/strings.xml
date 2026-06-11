@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Kukimo</string>
+    <string name="title_activity_main">Kukimo</string>
+    <string name="package_name">com.kukimo.app</string>
+    <string name="custom_url_scheme">com.kukimo.app</string>
+</resources>

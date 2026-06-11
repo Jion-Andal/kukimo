@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { FORTUNE_CATEGORIES, type FortuneCategory } from '../data/fortunes';
+import { getItem, setItem } from '../utils/storage';
 
 const STORAGE_KEY = 'kukimo-fortune-stats';
 
@@ -19,7 +20,7 @@ function emptyStats(): FortuneStats {
 
 function readStats(): FortuneStats {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = getItem(STORAGE_KEY);
     if (!raw) return emptyStats();
     const parsed = JSON.parse(raw) as Partial<FortuneStats>;
     const stats = emptyStats();
@@ -39,7 +40,7 @@ export function useFortuneStats() {
   const recordFortune = useCallback((category: FortuneCategory) => {
     const current = readStats();
     const next = { ...current, [category]: current[category] + 1 };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    setItem(STORAGE_KEY, JSON.stringify(next));
     setStats(next);
   }, []);
 

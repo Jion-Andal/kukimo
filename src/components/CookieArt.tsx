@@ -8,8 +8,29 @@ interface CookieArtProps {
   className?: string;
 }
 
-/** Top arc where hats sit on the cookie head */
-const HEAD_BAND = 'M 78 52 Q 110 44 142 52';
+const COOKIE_MAIN = '#F5B942';
+const COOKIE_SHADOW = '#D4922A';
+const COOKIE_HIGHLIGHT = '#FFE9A8';
+const COOKIE_STROKE = '#2D2016';
+const STROKE_W = 4.5;
+
+/** Arc along the pinched top where hats sit */
+const HEAD_BAND = 'M 72 46 Q 110 34 148 46';
+
+/** Classic crescent — pinched top, wide curved wings, rounded bottom corners */
+const LEFT_HALF =
+  'M 110 40 C 94 42, 40 62, 28 106 C 22 136, 36 164, 66 176 C 86 182, 102 172, 108 144 C 112 114, 110 72, 110 40 Z';
+
+const RIGHT_HALF =
+  'M 110 40 C 126 42, 180 62, 192 106 C 198 136, 184 164, 154 176 C 134 182, 118 172, 112 144 C 108 114, 110 72, 110 40 Z';
+
+/** Rear fold peeking behind the upper-right */
+const BACK_FOLD =
+  'M 116 42 C 142 40, 172 56, 180 86 C 183 106, 168 122, 146 118 C 128 114, 116 92, 116 66 Z';
+
+/** Inner cavity at the top pinch */
+const PINCH_SHADOW =
+  'M 110 40 C 102 54, 104 82, 110 104 C 116 82, 118 54, 110 40 Z';
 
 export function CookieArt({
   skinId,
@@ -21,15 +42,11 @@ export function CookieArt({
   const crackOpacity = (stage: number) => (taps >= stage ? 1 : 0);
   const isGold = skinId === 'gold';
 
-  const leftGrad = `${idPrefix}-left`;
-  const rightGrad = `${idPrefix}-right`;
-  const goldShine = `${idPrefix}-gold-shine`;
   const clipLeft = `${idPrefix}-clip-left`;
   const clipRight = `${idPrefix}-clip-right`;
 
-  const leftFill = isGold ? `url(#${goldShine})` : `url(#${leftGrad})`;
-  const rightFill = isGold ? `url(#${goldShine})` : `url(#${rightGrad})`;
-  const strokeColor = isGold ? '#B8860B' : '#A66B28';
+  const mainFill = isGold ? '#FFD700' : COOKIE_MAIN;
+  const shadowFill = isGold ? '#D4A010' : COOKIE_SHADOW;
 
   const leftHalfClass = `cookie-half cookie-half--left${cracked ? ' cookie-half--split' : ''}`;
   const rightHalfClass = `cookie-half cookie-half--right${cracked ? ' cookie-half--split' : ''}`;
@@ -42,20 +59,6 @@ export function CookieArt({
       aria-hidden
     >
       <defs>
-        <linearGradient id={leftGrad} x1="30%" y1="0%" x2="70%" y2="100%">
-          <stop offset="0%" stopColor="#EDBF5E" />
-          <stop offset="100%" stopColor="#C9923A" />
-        </linearGradient>
-        <linearGradient id={rightGrad} x1="30%" y1="0%" x2="70%" y2="100%">
-          <stop offset="0%" stopColor="#E5B24E" />
-          <stop offset="100%" stopColor="#BF8530" />
-        </linearGradient>
-        <linearGradient id={goldShine} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#FFF4A3" />
-          <stop offset="35%" stopColor="#FFD700" />
-          <stop offset="70%" stopColor="#F5C842" />
-          <stop offset="100%" stopColor="#D4A017" />
-        </linearGradient>
         <clipPath id={clipLeft}>
           <rect x="0" y="0" width="110" height="200" />
         </clipPath>
@@ -64,29 +67,56 @@ export function CookieArt({
         </clipPath>
       </defs>
 
-      <ellipse cx="110" cy="178" rx="72" ry="8" fill="#8B5A2B" opacity="0.12" />
+      <ellipse cx="110" cy="182" rx="62" ry="6" fill="#2D2016" opacity="0.08" />
+
+      {!cracked && (
+        <path
+          d={BACK_FOLD}
+          fill={shadowFill}
+          stroke={COOKIE_STROKE}
+          strokeWidth={STROKE_W}
+          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
+      )}
 
       {!cracked && (
         <g className="fortune-slip-peek">
-          <rect x="103" y="18" width="14" height="36" rx="2" fill="#FFFEF5" stroke="#E8DFC8" strokeWidth="1" />
-          <line x1="106" y1="26" x2="114" y2="26" stroke="#E0D5BC" strokeWidth="1" />
-          <line x1="106" y1="32" x2="114" y2="32" stroke="#E0D5BC" strokeWidth="1" />
-          <line x1="106" y1="38" x2="112" y2="38" stroke="#E0D5BC" strokeWidth="1" />
+          <g transform="translate(30 78) rotate(-28)">
+            <rect
+              x="0"
+              y="0"
+              width="38"
+              height="14"
+              rx="2"
+              fill="#FFFEF5"
+              stroke={COOKIE_STROKE}
+              strokeWidth="2.5"
+            />
+            <rect x="10" y="5" width="16" height="3" rx="1.5" fill="#C4B8A8" />
+          </g>
         </g>
       )}
 
       <g className={leftHalfClass}>
         <path
-          d="M110 48 C 82 50, 28 72, 22 118 C 18 148, 48 172, 82 176 C 98 178, 110 172, 110 155 L 110 48 Z"
-          fill={leftFill}
-          stroke={strokeColor}
-          strokeWidth="3.5"
+          d={LEFT_HALF}
+          fill={mainFill}
+          stroke={COOKIE_STROKE}
+          strokeWidth={STROKE_W}
           strokeLinejoin="round"
+          strokeLinecap="round"
         />
-        <g className="crack-lines" stroke="#7A4E20" strokeWidth="2.5" strokeLinecap="round" fill="none">
-          <path d="M110 84 L110 100" style={{ opacity: crackOpacity(1) }} />
-          <path d="M110 100 L94 118" style={{ opacity: crackOpacity(2) }} />
-          <path d="M94 118 L110 128" style={{ opacity: crackOpacity(4) }} />
+        {!cracked && <path d={PINCH_SHADOW} fill={shadowFill} stroke="none" clipPath={`url(#${clipLeft})`} />}
+        <path
+          d="M 46 78 C 36 100, 38 132, 54 158 C 62 142, 58 102, 50 82 Z"
+          fill={COOKIE_HIGHLIGHT}
+          stroke="none"
+        />
+        <g className="crack-lines" stroke={COOKIE_STROKE} strokeWidth="2.5" strokeLinecap="round" fill="none">
+          <path d="M 110 80 L 110 96" style={{ opacity: crackOpacity(1) }} />
+          <path d="M 110 96 L 98 112" style={{ opacity: crackOpacity(2) }} />
+          <path d="M 98 112 L 110 126" style={{ opacity: crackOpacity(4) }} />
         </g>
         {skinId === 'gold' && <GoldNecklaceLeft />}
         {skinId === 'cap' && (
@@ -111,25 +141,27 @@ export function CookieArt({
           </g>
         )}
         {isGold && <GoldSparklesLeft />}
-        {!cracked && taps === 0 && (
-          <g clipPath={`url(#${clipLeft})`}>
-            <CenterHighlight strokeColor={isGold ? '#D4A017' : '#B87830'} />
-          </g>
-        )}
       </g>
 
       <g className={rightHalfClass}>
         <path
-          d="M110 48 C 138 50, 192 72, 198 118 C 202 148, 172 172, 138 176 C 122 178, 110 172, 110 155 L 110 48 Z"
-          fill={rightFill}
-          stroke={strokeColor}
-          strokeWidth="3.5"
+          d={RIGHT_HALF}
+          fill={mainFill}
+          stroke={COOKIE_STROKE}
+          strokeWidth={STROKE_W}
           strokeLinejoin="round"
+          strokeLinecap="round"
         />
-        <g className="crack-lines" stroke="#7A4E20" strokeWidth="2.5" strokeLinecap="round" fill="none">
-          <path d="M110 84 L110 100" style={{ opacity: crackOpacity(1) }} />
-          <path d="M110 100 L126 118" style={{ opacity: crackOpacity(3) }} />
-          <path d="M126 118 L110 128" style={{ opacity: crackOpacity(4) }} />
+        {!cracked && <path d={PINCH_SHADOW} fill={shadowFill} stroke="none" clipPath={`url(#${clipRight})`} />}
+        <path
+          d="M 174 78 C 184 100, 182 132, 166 158 C 158 142, 162 102, 170 82 Z"
+          fill={COOKIE_HIGHLIGHT}
+          stroke="none"
+        />
+        <g className="crack-lines" stroke={COOKIE_STROKE} strokeWidth="2.5" strokeLinecap="round" fill="none">
+          <path d="M 110 80 L 110 96" style={{ opacity: crackOpacity(1) }} />
+          <path d="M 110 96 L 122 112" style={{ opacity: crackOpacity(3) }} />
+          <path d="M 122 112 L 110 126" style={{ opacity: crackOpacity(4) }} />
         </g>
         {skinId === 'gold' && <GoldNecklaceRight />}
         {skinId === 'cap' && (
@@ -154,39 +186,14 @@ export function CookieArt({
           </g>
         )}
         {isGold && <GoldSparklesRight />}
-        {!cracked && taps === 0 && (
-          <g clipPath={`url(#${clipRight})`}>
-            <CenterHighlight strokeColor={isGold ? '#D4A017' : '#B87830'} />
-          </g>
-        )}
       </g>
     </svg>
   );
 }
 
-function CenterHighlight({ strokeColor }: { strokeColor: string }) {
-  return (
-    <path
-      d="M110 48 C 108 56, 107 68, 110 155"
-      fill="none"
-      stroke={strokeColor}
-      strokeWidth="2"
-      strokeLinecap="round"
-      opacity="0.45"
-    />
-  );
-}
-
-/** Head band helper — wraps the cookie's top curve */
 function HeadBand({ color, width = 5 }: { color: string; width?: number }) {
   return (
-    <path
-      d={HEAD_BAND}
-      fill="none"
-      stroke={color}
-      strokeWidth={width}
-      strokeLinecap="round"
-    />
+    <path d={HEAD_BAND} fill="none" stroke={color} strokeWidth={width} strokeLinecap="round" />
   );
 }
 
@@ -194,12 +201,12 @@ function CapWorn() {
   return (
     <g className="skin-cap">
       <HeadBand color="#1D4ED8" width={5} />
-      <ellipse cx="110" cy="50" rx="34" ry="7" fill="#1E3A5F" stroke="#152A45" strokeWidth="1.5" />
+      <ellipse cx="110" cy="48" rx="36" ry="7" fill="#1E3A5F" stroke={COOKIE_STROKE} strokeWidth="2" />
       <path
-        d="M84 50 C 84 32, 96 22, 110 20 C 124 22, 136 32, 136 50 Z"
+        d="M 82 48 C 82 28, 96 18, 110 16 C 124 18, 138 28, 138 48 Z"
         fill="#2563EB"
-        stroke="#1D4ED8"
-        strokeWidth="2"
+        stroke={COOKIE_STROKE}
+        strokeWidth="2.5"
         strokeLinejoin="round"
       />
     </g>
@@ -210,15 +217,15 @@ function FedoraWorn() {
   return (
     <g className="skin-fedora">
       <HeadBand color="#3D2914" width={4} />
-      <ellipse cx="110" cy="50" rx="38" ry="6" fill="#3D2914" stroke="#2A1D0E" strokeWidth="1.5" />
+      <ellipse cx="110" cy="48" rx="40" ry="6" fill="#3D2914" stroke={COOKIE_STROKE} strokeWidth="2" />
       <path
-        d="M88 50 C 88 30, 98 18, 110 16 C 122 18, 132 30, 132 50 Z"
+        d="M 86 48 C 86 28, 98 16, 110 14 C 122 16, 134 28, 134 48 Z"
         fill="#5C4033"
-        stroke="#3D2914"
-        strokeWidth="2"
+        stroke={COOKIE_STROKE}
+        strokeWidth="2.5"
         strokeLinejoin="round"
       />
-      <path d="M88 48 Q 110 52 132 48" fill="none" stroke="#4A3228" strokeWidth="3" strokeLinecap="round" />
+      <path d="M 86 46 Q 110 50 134 46" fill="none" stroke="#4A3228" strokeWidth="3" strokeLinecap="round" />
     </g>
   );
 }
@@ -226,16 +233,16 @@ function FedoraWorn() {
 function SunglassesLeft() {
   return (
     <g className="skin-sunglasses">
-      <path d="M106 100 Q 110 98 114 100" stroke="#333" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+      <path d="M 106 108 Q 110 106 114 108" stroke={COOKIE_STROKE} strokeWidth="2.5" strokeLinecap="round" fill="none" />
       <path
-        d="M76 96 Q 92 92 108 96 L 108 112 Q 92 116 76 112 Z"
+        d="M 74 104 Q 92 100 108 104 L 108 120 Q 92 124 74 120 Z"
         fill="#111"
-        stroke="#333"
+        stroke={COOKIE_STROKE}
         strokeWidth="2"
         strokeLinejoin="round"
       />
-      <path d="M76 104 L68 102" stroke="#333" strokeWidth="2" strokeLinecap="round" />
-      <path d="M82 100 L88 100 L86 106 L80 106 Z" fill="#FFF" opacity="0.25" />
+      <path d="M 74 112 L 64 110" stroke={COOKIE_STROKE} strokeWidth="2" strokeLinecap="round" />
+      <path d="M 80 108 L 86 108 L 84 114 L 78 114 Z" fill="#FFF" opacity="0.3" />
     </g>
   );
 }
@@ -243,16 +250,16 @@ function SunglassesLeft() {
 function SunglassesRight() {
   return (
     <g className="skin-sunglasses">
-      <path d="M106 100 Q 110 98 114 100" stroke="#333" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+      <path d="M 106 108 Q 110 106 114 108" stroke={COOKIE_STROKE} strokeWidth="2.5" strokeLinecap="round" fill="none" />
       <path
-        d="M112 96 Q 128 92 144 96 L 144 112 Q 128 116 112 112 Z"
+        d="M 112 104 Q 128 100 146 104 L 146 120 Q 128 124 112 120 Z"
         fill="#111"
-        stroke="#333"
+        stroke={COOKIE_STROKE}
         strokeWidth="2"
         strokeLinejoin="round"
       />
-      <path d="M144 104 L152 102" stroke="#333" strokeWidth="2" strokeLinecap="round" />
-      <path d="M132 100 L138 100 L136 106 L130 106 Z" fill="#FFF" opacity="0.25" />
+      <path d="M 146 112 L 156 110" stroke={COOKIE_STROKE} strokeWidth="2" strokeLinecap="round" />
+      <path d="M 134 108 L 140 108 L 138 114 L 132 114 Z" fill="#FFF" opacity="0.3" />
     </g>
   );
 }
@@ -260,17 +267,13 @@ function SunglassesRight() {
 function AngryFaceWorn() {
   return (
     <g className="skin-angry">
-      <path
-        d="M72 88 Q 110 82 148 88 L 145 98 Q 110 94 75 98 Z"
-        fill="#E57373"
-        opacity="0.25"
-      />
-      <path d="M84 90 L96 96" stroke="#4A3728" strokeWidth="3" strokeLinecap="round" />
-      <path d="M136 90 L124 96" stroke="#4A3728" strokeWidth="3" strokeLinecap="round" />
-      <ellipse cx="92" cy="102" rx="4" ry="5" fill="#4A3728" />
-      <ellipse cx="128" cy="102" rx="4" ry="5" fill="#4A3728" />
-      <path d="M90 118 Q110 110 130 118" fill="none" stroke="#4A3728" strokeWidth="2.5" strokeLinecap="round" />
-      <path d="M110 118 L110 124" stroke="#4A3728" strokeWidth="2" strokeLinecap="round" />
+      <path d="M 68 96 Q 110 90 152 96 L 149 106 Q 110 102 71 106 Z" fill="#E57373" opacity="0.3" />
+      <path d="M 80 98 L 92 104" stroke={COOKIE_STROKE} strokeWidth="3" strokeLinecap="round" />
+      <path d="M 140 98 L 128 104" stroke={COOKIE_STROKE} strokeWidth="3" strokeLinecap="round" />
+      <ellipse cx="88" cy="110" rx="4" ry="5" fill={COOKIE_STROKE} />
+      <ellipse cx="132" cy="110" rx="4" ry="5" fill={COOKIE_STROKE} />
+      <path d="M 86 126 Q 110 118 134 126" fill="none" stroke={COOKIE_STROKE} strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M 110 126 L 110 132" stroke={COOKIE_STROKE} strokeWidth="2" strokeLinecap="round" />
     </g>
   );
 }
@@ -279,20 +282,20 @@ function CrownWorn() {
   return (
     <g className="skin-crown">
       <path
-        d="M 88 50 L 133 50 L 130 54 L 91 54 Z"
+        d="M 84 48 L 136 48 L 133 52 L 87 52 Z"
         fill="#D4AF37"
-        stroke="#B8860B"
-        strokeWidth="1.2"
+        stroke={COOKIE_STROKE}
+        strokeWidth="1.5"
         strokeLinejoin="round"
       />
       <path
-        d="M 91 50 L 97 36 L 105 44 L 110 28 L 115 44 L 123 36 L 129 50 Z"
+        d="M 87 48 L 93 32 L 102 42 L 110 24 L 118 42 L 127 32 L 133 48 Z"
         fill="#FFD700"
-        stroke="#B8860B"
-        strokeWidth="1.8"
+        stroke={COOKIE_STROKE}
+        strokeWidth="2"
         strokeLinejoin="round"
       />
-      <circle cx="110" cy="38" r="2.2" fill="#FFF8DC" />
+      <circle cx="110" cy="34" r="2.5" fill="#FFF8DC" stroke={COOKIE_STROKE} strokeWidth="1" />
     </g>
   );
 }
@@ -300,10 +303,10 @@ function CrownWorn() {
 function GoldNecklaceLeft() {
   return (
     <g className="skin-gold-necklace">
-      <ellipse cx="78" cy="78" rx="5" ry="3" fill="#FFD700" stroke="#B8860B" strokeWidth="1.2" transform="rotate(-15 78 78)" />
-      <ellipse cx="94" cy="82" rx="5" ry="3" fill="#FFD700" stroke="#B8860B" strokeWidth="1.2" transform="rotate(-5 94 82)" />
-      <ellipse cx="110" cy="84" rx="5" ry="3" fill="#FFD700" stroke="#B8860B" strokeWidth="1.2" />
-      <circle cx="110" cy="92" r="7" fill="#FFD700" stroke="#B8860B" strokeWidth="1.5" />
+      <ellipse cx="74" cy="118" rx="5" ry="3" fill="#FFD700" stroke={COOKIE_STROKE} strokeWidth="1.2" transform="rotate(-15 74 118)" />
+      <ellipse cx="92" cy="122" rx="5" ry="3" fill="#FFD700" stroke={COOKIE_STROKE} strokeWidth="1.2" transform="rotate(-5 92 122)" />
+      <ellipse cx="110" cy="124" rx="5" ry="3" fill="#FFD700" stroke={COOKIE_STROKE} strokeWidth="1.2" />
+      <circle cx="110" cy="132" r="7" fill="#FFD700" stroke={COOKIE_STROKE} strokeWidth="1.5" />
     </g>
   );
 }
@@ -311,10 +314,10 @@ function GoldNecklaceLeft() {
 function GoldNecklaceRight() {
   return (
     <g className="skin-gold-necklace">
-      <ellipse cx="110" cy="84" rx="5" ry="3" fill="#FFD700" stroke="#B8860B" strokeWidth="1.2" />
-      <ellipse cx="126" cy="82" rx="5" ry="3" fill="#FFD700" stroke="#B8860B" strokeWidth="1.2" transform="rotate(5 126 82)" />
-      <ellipse cx="142" cy="78" rx="5" ry="3" fill="#FFD700" stroke="#B8860B" strokeWidth="1.2" transform="rotate(15 142 78)" />
-      <circle cx="110" cy="92" r="7" fill="#FFD700" stroke="#B8860B" strokeWidth="1.5" />
+      <ellipse cx="110" cy="124" rx="5" ry="3" fill="#FFD700" stroke={COOKIE_STROKE} strokeWidth="1.2" />
+      <ellipse cx="128" cy="122" rx="5" ry="3" fill="#FFD700" stroke={COOKIE_STROKE} strokeWidth="1.2" transform="rotate(5 128 122)" />
+      <ellipse cx="146" cy="118" rx="5" ry="3" fill="#FFD700" stroke={COOKIE_STROKE} strokeWidth="1.2" transform="rotate(15 146 118)" />
+      <circle cx="110" cy="132" r="7" fill="#FFD700" stroke={COOKIE_STROKE} strokeWidth="1.5" />
     </g>
   );
 }
@@ -322,7 +325,7 @@ function GoldNecklaceRight() {
 function GoldSparklesLeft() {
   return (
     <g className="gold-sparkles">
-      <path d="M48 70 L50 74 L54 76 L50 78 L48 82 L46 78 L42 76 L46 74 Z" fill="#FFF8DC" opacity="0.8" />
+      <path d="M 44 84 L 46 88 L 50 90 L 46 92 L 44 96 L 42 92 L 38 90 L 42 88 Z" fill="#FFF8DC" opacity="0.85" />
     </g>
   );
 }
@@ -330,8 +333,8 @@ function GoldSparklesLeft() {
 function GoldSparklesRight() {
   return (
     <g className="gold-sparkles">
-      <path d="M168 55 L169 58 L172 59 L169 60 L168 63 L167 60 L164 59 L167 58 Z" fill="#FFF8DC" opacity="0.7" />
-      <path d="M185 130 L186 133 L189 134 L186 135 L185 138 L184 135 L181 134 L184 133 Z" fill="#FFF8DC" opacity="0.6" />
+      <path d="M 168 68 L 169 71 L 172 72 L 169 73 L 168 76 L 167 73 L 164 72 L 167 71 Z" fill="#FFF8DC" opacity="0.75" />
+      <path d="M 182 144 L 183 147 L 186 148 L 183 149 L 182 152 L 181 149 L 178 148 L 181 147 Z" fill="#FFF8DC" opacity="0.65" />
     </g>
   );
 }
